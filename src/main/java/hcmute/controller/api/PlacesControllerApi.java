@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("api")
 public class PlacesControllerApi {
 
-    private String googleApiKey = "AIzaSyCziRvn2DovPQLMiklZ6Bv0Gw6748S9VV4";
+    private String googleApiKey = "AIzaSyCZe1iWRKx0FQfRUxUTbNBcjdh5o8sZMdE";
 
     @GetMapping("/places")
     public ResponseEntity<Object> getPlaces(@RequestParam String query) {

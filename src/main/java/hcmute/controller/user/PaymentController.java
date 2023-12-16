@@ -65,16 +65,16 @@ public class PaymentController {
 
 	@Autowired
 	IMilkTeaService milkTeaService;
-	
+
 	@Autowired
 	IBranchService branchService;
-	
+
 	@Autowired
 	CookieServiceImpl cookieServiceImpl;
 
 	@GetMapping("")
-	private String displayPayment(ModelMap model, @RequestParam("data") String data, @RequestParam("listBranch") String listBranch)
-			throws UnsupportedEncodingException {
+	private String displayPayment(ModelMap model, @RequestParam("data") String data,
+			@RequestParam("listBranch") String listBranch) throws UnsupportedEncodingException {
 //		data = URLDecoder.decode(data, "UTF-8");
 		byte[] decodedBytes = Base64.getDecoder().decode(data);
 		data = new String(decodedBytes, StandardCharsets.UTF_8);
@@ -87,25 +87,25 @@ public class PaymentController {
 			UserEntity customer = optCustomer.get();
 			model.addAttribute("customer", customer);
 		}
-		
+
 		byte[] branchBytes = Base64.getDecoder().decode(listBranch);
 		String branchString = new String(branchBytes);
 		branchString = branchString.trim();
 		if (branchString.startsWith("[")) {
 			branchString = branchString.substring(1, branchString.length() - 1);
-        }
-		
+		}
+
 		List<String> branchList = new ArrayList<>(Arrays.asList(branchString.split(",")));
 		List<BranchEntity> branches = new ArrayList<BranchEntity>();
-		for(String branchId : branchList) {
+		for (String branchId : branchList) {
 			int id = Integer.parseInt(branchId);
 			Optional<BranchEntity> opt = branchService.findById(id);
-			if(opt.isPresent()) {
+			if (opt.isPresent()) {
 				branches.add(opt.get());
 			}
 		}
 		model.addAttribute("branches", branches);
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
@@ -124,7 +124,7 @@ public class PaymentController {
 			}
 			model.addAttribute("orderProduct", orderProduct);
 			model.addAttribute("listMilkTea", listMilkTea);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -155,7 +155,7 @@ public class PaymentController {
 			orderEntity.setPhoneNumber(orderData.getPhoneNumber());
 			orderEntity.setFee(orderData.getFee());
 			Optional<BranchEntity> optBranch = branchService.findById(orderData.getIdBranch());
-			if(optBranch.isPresent()) {
+			if (optBranch.isPresent()) {
 				orderEntity.setBranchByOrder(optBranch.get());
 			}
 

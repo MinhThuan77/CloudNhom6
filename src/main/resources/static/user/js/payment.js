@@ -17,6 +17,7 @@ const listRadioBranch = document.querySelectorAll('.radio-branch');
 const listBranchAddress = document.querySelectorAll('.list-branches-item-address');
 
 let timeoutId = null;
+let idTimeoutBlur = null;
 let shipAddress = "";
 
 function convertToDateTime(dateString) {
@@ -193,6 +194,7 @@ const getDataOfAPI = async (destination) => {
 const calculateAllShipPrice = () => {
 	listBranchAddress.forEach(async (address, index) => {
 		const dataObj = await getDataOfAPI(address.textContent);
+		console.log(dataObj, address.textContent);
 		const feeVal = calculateShipPriceBaseOnDistance(dataObj.distance.text);
 		listFee[index].textContent = feeVal + "đ";
 		if (listRadioBranch[index].checked) {
@@ -204,9 +206,10 @@ const calculateAllShipPrice = () => {
 }
 
 address.addEventListener('blur', function() {
-	setTimeout(() => {
+	clearTimeout(idTimeoutBlur);
+	idTimeoutBlur = setTimeout(() => {
 		calculateAllShipPrice();
-	}, 500);
+	}, 300);
 })
 
 listRadioBranch.forEach((radio, index) => {

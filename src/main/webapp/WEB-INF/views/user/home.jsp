@@ -24,7 +24,7 @@
 						<h3 class="toast__title">Success</h3>
 						<p class="toast__msg">${orderMessage }</p>
 					</div>
-					<a href="/order" class="btn btn-warning ms-2"
+					<a href="/order/${idOrder }" class="btn btn-warning ms-2"
 						style="font-size: 12px !important">Xem đơn hàng</a>
 					<div class="toast__close">
 						<i class="fas fa-times"></i>
